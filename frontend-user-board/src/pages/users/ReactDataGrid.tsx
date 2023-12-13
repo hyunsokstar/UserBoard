@@ -26,12 +26,13 @@ type Row = {
   email: string;
   nickname: string;
   role: string;
+  gender: string;
+  phoneNumber: string | null;
 };
 
 const ReactDataGrid = () => {
   const [rows, setRows] = useState<Row[]>([]);
   const [pageNum, setPageNum] = useState(1);
-
 
   const { isLoading, error, data: dataForUserBoard } = useQuery<UserBoardData>({
     queryKey: ['apiForGetAllUsers', pageNum],
@@ -45,6 +46,8 @@ const ReactDataGrid = () => {
         email: user.email,
         nickname: user.nickname,
         role: user.role,
+        gender: user.gender,
+        phoneNumber: user.phoneNumber,
       }));
       setRows(userRows);
     }
@@ -58,6 +61,8 @@ const ReactDataGrid = () => {
     { key: 'email', name: 'Email' },
     { key: 'nickname', name: 'Nickname' },
     { key: 'role', name: 'Role' },
+    { key: 'gender', name: 'Gender' }, // gender 추가
+    { key: 'phoneNumber', name: 'Phone Number' }, // phoneNumber 추가
   ];
 
   function rowKeyGetter(row: Row) {
