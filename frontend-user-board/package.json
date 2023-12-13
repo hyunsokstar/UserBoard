@@ -1,0 +1,35 @@
+{
+  "name": "frontend-user-board",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@chakra-ui/icons": "^2.1.1",
+    "@chakra-ui/react": "^2.8.2",
+    "@reduxjs/toolkit": "^2.0.1",
+    "@tanstack/react-query": "^5.12.2",
+    "@tanstack/react-query-devtools": "^5.13.3",
+    "axios": "^1.6.2",
+    "framer-motion": "^10.16.16",
+    "jsonwebtoken": "^9.0.2",
+    "next": "14.0.4",
+    "rc-pagination": "^4.0.2",
+    "react": "^18",
+    "react-data-grid": "^7.0.0-beta.41",
+    "react-dom": "^18",
+    "react-hook-form": "^7.49.0",
+    "react-icons": "^4.12.0",
+    "react-redux": "^9.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "typescript": "^5"
+  }
+}
