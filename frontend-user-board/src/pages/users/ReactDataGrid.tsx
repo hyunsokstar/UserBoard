@@ -21,6 +21,15 @@ type UserBoardData = {
   perPage: number;
 };
 
+const columns = [
+  { key: 'id', name: 'ID' },
+  { key: 'email', name: 'Email' },
+  { key: 'nickname', name: 'Nickname' },
+  { key: 'role', name: 'Role' },
+  { key: 'gender', name: 'Gender' }, // gender 추가
+  { key: 'phoneNumber', name: 'Phone Number' }, // phoneNumber 추가
+];
+
 type Row = {
   id: number;
   email: string;
@@ -55,15 +64,6 @@ const ReactDataGrid = () => {
 
   if (isLoading) return <Box>Loading...</Box>;
   if (error) return <Box>Error: {error.message}</Box>;
-
-  const columns = [
-    { key: 'id', name: 'ID' },
-    { key: 'email', name: 'Email' },
-    { key: 'nickname', name: 'Nickname' },
-    { key: 'role', name: 'Role' },
-    { key: 'gender', name: 'Gender' }, // gender 추가
-    { key: 'phoneNumber', name: 'Phone Number' }, // phoneNumber 추가
-  ];
 
   function rowKeyGetter(row: Row) {
     return row.id;
