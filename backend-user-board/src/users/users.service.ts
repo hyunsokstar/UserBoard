@@ -57,6 +57,7 @@ export class UsersService {
 
         const dtoUsers = users.map(user => {
             const dtoUser: DtoForUserList = {
+                id: user.id,
                 email: user.email,
                 nickname: user.nickname,
                 role: user.role,

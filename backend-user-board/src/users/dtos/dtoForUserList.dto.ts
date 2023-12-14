@@ -3,6 +3,10 @@ import { IsEmail, IsEnum, IsNumber, IsPhoneNumber, IsString, Matches, isNumber }
 import { GendersEnum, RolesEnum } from "../enums/roles.enum";
 
 export class DtoForUserList {
+
+    @IsNumber()
+    id: number;
+
     @IsEmail()
     email: string;
 

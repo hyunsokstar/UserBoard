@@ -35,7 +35,7 @@ const TextEditorForDevLevel = <TRow, TSummaryRow>({
                 const value = parseFloat(valueString) || 0;
                 onRowChange({ ...row, [column.key]: value });
                 // 해당 행의 체크 박스를 체크하는 함수 호출
-                // onRowSelectionChange({ type: "ROW", row: row, checked: true, isShiftClick: false });
+                onRowSelectionChange({ type: "ROW", row: row, checked: true, isShiftClick: false });
                 console.log("여기 맞아?");
             }}
             onBlur={() => onClose(true, false)}
