@@ -109,14 +109,39 @@ const UserlistByDataGrid = () => {
     setRows([...rows, newRow]); // 기존 행 배열에 새로운 행 추가
   }
 
+  function handleSaveSelectedRows() {
+    // 선택된 행들의 데이터를 가져와서 새로운 배열에 저장
+    const selectedRowsData = rows.filter(row => selectedRows.has(row.id));
+
+    console.log("selectedRowsData : ", selectedRowsData);
+
+
+    // 서버로 보내는 로직
+    // 예를 들어, axios를 사용한 POST 요청으로 보낸다고 가정하면:
+    // axios.post('/save-selected-rows', { selectedRowsData })
+    //   .then(response => {
+    //     // 성공적으로 저장되었을 때의 처리
+    //     console.log('선택된 행들이 저장되었습니다.');
+    //   })
+    //   .catch(error => {
+    //     // 저장 중 오류 발생 시의 처리
+    //     console.error('행을 저장하는 중 오류가 발생했습니다:', error);
+    //   });
+  }
+
+
   return (
     <Box width={'80%'} mx={'auto'} mt={5}>
       <Button mb={3} colorScheme="red" disabled={selectedRows.size === 0} onClick={handleDeleteSelectedRows}>
         선택된 항목 삭제
       </Button>
 
-      <Button mb={3} colorScheme="red" onClick={addNewRow}>
+      <Button mb={3} ml={3} colorScheme="red" onClick={addNewRow}>
         새로운 행 추가
+      </Button>
+
+      <Button mb={3} ml={3} colorScheme="green" disabled={selectedRows.size === 0} onClick={handleSaveSelectedRows}>
+        선택된 항목 저장
       </Button>
 
       <DataGrid
