@@ -9,7 +9,7 @@ const Home = () => {
             <Box display="flex" flexDirection="column" border="0px solid green">
                 {[
                     { href: '/users', text: '회원 관리 (기본)' },
-                    { href: '/users/ReactDataGrid', text: '회원 관리(react-data-grid)' },
+                    { href: '/users/UserlistByDataGrid', text: '회원 관리(react-data-grid)' },
                     { href: '/users-by-rbd', text: '회원 관리(react-beautiful-dnd)' },
                     { href: '/chatting', text: '채팅' },
                     { href: '/payment', text: '결제' },

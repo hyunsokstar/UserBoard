@@ -6,7 +6,8 @@ interface User {
     role: string;
     gender: string;
     phoneNumber: string;
-    // 다른 필드들도 있을 수 있음
+    frontEndLevel: number;
+    backEndLevel: number;
 }
 
 // 응답 데이터의 타입 정의
@@ -16,18 +17,8 @@ interface ITypeForUserBoard {
     perPage: number;
 }
 
-export type IRowForUserInfo = {
-    id: number;
-    email: string;
-    password: string;
-    nickname: string;
-    role: string;
-    gender: string;
-    phoneNumber: string | null;
-};
-
 export type ITypeForResponseDataForGetAllUsers = {
-    users: IRowForUserInfo[];
+    users: User[];
     totalCount: number;
     perPage: number;
 };
@@ -40,5 +31,7 @@ export type Row = {
     nickname: string;
     role: string;
     gender: string;
+    frontEndLevel: number;
+    backEndLevel: number;
     phoneNumber: string | null;
 };

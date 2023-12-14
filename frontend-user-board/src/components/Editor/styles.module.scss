@@ -20,6 +20,19 @@
     }
 }
 
+.inputStyleForDevLevel {
+    appearance: none;
+    height: "90%";
+    padding-block: 0;
+    border: 2px solid #ccc;
+    font-family: inherit;
+    border: "1px solid red";
+
+    &:focus {
+        border-color: var(--rdg-selection-color);
+    }
+}
+
 .gridStyle {
     background-color: aliceblue;
 }

@@ -8,20 +8,32 @@ import styles from './styles.module.scss';
 import TextEditor from '../../components/Editor/TextEditor';
 import { Direction, ITypeForResponseDataForGetAllUsers, Row } from '@/types/typeForUserBoard';
 import { SelectColumnForRdg } from '@/components/Formatter/CheckBox/SelectColumnForRdg';
+import TextEditorForDevLevel from '@/components/Editor/TextEditorForDevLevel';
 
 const columns = [
   SelectColumnForRdg,
-  { key: 'email', name: 'Email', sortable: true },
+  { key: 'email', name: 'Email', sortable: true, frozen: true },
   { key: 'nickname', name: 'Nickname' },
   { key: 'role', name: 'Role' },
   { key: 'gender', name: 'Gender' },
   {
-    key: 'phoneNumber', name: 'Phone Number',
+    key: 'phoneNumber',
+    name: 'Phone Number',
     renderEditCell: TextEditor,
   },
+  {
+    key: 'backEndLevel',
+    name: 'backEndLevel',
+    renderEditCell: TextEditorForDevLevel,
+  },
+  {
+    key: 'frontEndLevel',
+    name: 'frontEndLevel',
+    renderEditCell: TextEditorForDevLevel,
+  }
 ];
 
-const ReactDataGrid = () => {
+const UserlistByDataGrid = () => {
   const [rows, setRows] = useState<Row[]>([]);
   const [pageNum, setPageNum] = useState(1);
   const [selectedRows, setSelectedRows] = useState((): ReadonlySet<number> => new Set());
@@ -57,6 +69,8 @@ const ReactDataGrid = () => {
         role: user.role,
         gender: user.gender,
         phoneNumber: user.phoneNumber,
+        frontEndLevel: user.frontEndLevel,
+        backEndLevel: user.backEndLevel
       }));
       setRows(userRows);
     }
@@ -93,6 +107,7 @@ const ReactDataGrid = () => {
         direction={direction}
         renderers={{ renderSortStatus, renderCheckbox }}
         className="fill-grid"
+        style={{ maxWidth: '100%' }}
       />
     </Box>
   );
@@ -134,4 +149,4 @@ function getComparator(sortColumn: string): Comparator {
   }
 }
 
-export default ReactDataGrid;
+export default UserlistByDataGrid;
