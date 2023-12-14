@@ -9,6 +9,8 @@ import TextEditor from '../../components/Editor/TextEditor';
 import { Direction, ITypeForResponseDataForGetAllUsers, Row } from '@/types/typeForUserBoard';
 import { SelectColumnForRdg } from '@/components/Formatter/CheckBox/SelectColumnForRdg';
 import TextEditorForDevLevel from '@/components/Editor/TextEditorForDevLevel';
+import { v4 as uuidv4 } from 'uuid';
+
 
 const columns = [
   SelectColumnForRdg,
@@ -89,10 +91,32 @@ const UserlistByDataGrid = () => {
     return row.id;
   }
 
+  function generateUniqueId() {
+    return uuidv4(); // UUID v4 생성
+  }
+
+  function addNewRow() {
+    const newRow: User = {
+      id: generateUniqueId(), // generateUniqueId()는 UUID를 생성하는 함수여야 함
+      email: '', // 빈 문자열 또는 기본값으로 설정
+      nickname: '',
+      role: '',
+      gender: '',
+      phoneNumber: '',
+      frontEndLevel: 1, // 적절한 기본값으로 설정
+      backEndLevel: 1, // 적절한 기본값으로 설정
+    };
+    setRows([...rows, newRow]); // 기존 행 배열에 새로운 행 추가
+  }
+
   return (
     <Box width={'80%'} mx={'auto'} mt={5}>
       <Button mb={3} colorScheme="red" disabled={selectedRows.size === 0} onClick={handleDeleteSelectedRows}>
         선택된 항목 삭제
+      </Button>
+
+      <Button mb={3} colorScheme="red" onClick={addNewRow}>
+        새로운 행 추가
       </Button>
 
       <DataGrid
