@@ -31,3 +31,14 @@ export type ITypeForResponseDataForGetAllUsers = {
     totalCount: number;
     perPage: number;
 };
+
+export type Direction = 'ltr' | 'rtl';
+
+export type Row = {
+    id: number;
+    email: string;
+    nickname: string;
+    role: string;
+    gender: string;
+    phoneNumber: string | null;
+};

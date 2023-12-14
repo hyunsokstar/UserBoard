@@ -6,31 +6,20 @@ import { apiForGetAllUsers } from '../api/apiForUserBoard';
 import { useQuery } from '@tanstack/react-query';
 import styles from './styles.module.scss';
 import TextEditor from '../../components/Editor/TextEditor';
-import { SelectColumnForRdg } from '@/components/Formatter/CheckBox/SelectColumnForRDG';
-import { ITypeForResponseDataForGetAllUsers } from '@/types/typeForUserBoard';
+import { Direction, ITypeForResponseDataForGetAllUsers, Row } from '@/types/typeForUserBoard';
+import { SelectColumnForRdg } from '@/components/Formatter/CheckBox/SelectColumnForRdg';
 
 const columns = [
   SelectColumnForRdg,
   { key: 'email', name: 'Email', sortable: true },
   { key: 'nickname', name: 'Nickname' },
   { key: 'role', name: 'Role' },
-  { key: 'gender', name: 'Gender' }, // gender 추가
+  { key: 'gender', name: 'Gender' },
   {
     key: 'phoneNumber', name: 'Phone Number',
     renderEditCell: TextEditor,
-  }, // phoneNumber 추가
+  },
 ];
-
-type Row = {
-  id: number;
-  email: string;
-  nickname: string;
-  role: string;
-  gender: string;
-  phoneNumber: string | null;
-};
-
-export type Direction = 'ltr' | 'rtl';
 
 const ReactDataGrid = () => {
   const [rows, setRows] = useState<Row[]>([]);
