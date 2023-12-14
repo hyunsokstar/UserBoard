@@ -4,10 +4,8 @@ import { Repository } from 'typeorm';
 import { UsersModel } from './entities/users.entity';
 import { DtoForUserList } from './dtos/dtoForUserList.dto';
 import * as bcrypt from 'bcrypt';
-
 import { ConfigService } from '@nestjs/config';
 import * as jwt from 'jsonwebtoken';
-
 
 @Injectable()
 export class UsersService {
@@ -57,7 +55,20 @@ export class UsersService {
             throw new NotFoundException('No users found');
         }
 
-        return { users, totalCount, perPage };
+        const dtoUsers = users.map(user => {
+            const dtoUser: DtoForUserList = {
+                email: user.email,
+                nickname: user.nickname,
+                role: user.role,
+                gender: user.gender,
+                phoneNumber: user.phoneNumber,
+                backEndLevel: user.backEndLevel,
+                frontEndLevel: user.frontEndLevel,
+            };
+            return dtoUser;
+        });
+
+        return { users: dtoUsers, totalCount, perPage };
     }
 
     async CreateUser(user: Partial<UsersModel>) {

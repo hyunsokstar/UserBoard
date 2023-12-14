@@ -16,6 +16,7 @@ import {
 import MyPagination from '@/components/MyPagination';
 import { UseMutationOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { apiForDeleteUsersForCheckedIds, apiForGetAllUsers } from '@/pages/api/apiForUserBoard';
+import { ITypeForResponseDataForGetAllUsers } from '@/types/typeForUserBoard';
 
 
 const ContainerForUserBoard = ({
@@ -27,7 +28,7 @@ const ContainerForUserBoard = ({
     const [checkedIds, setCheckedIds] = useState<number[]>([]); // 체크된 아이템 ID를 저장하는 상태
     const [isAllChecked, setIsAllChecked] = useState(false); // 모두 선택 여부를 저장하는 상태
 
-    const { isLoading: isPending, error, data: dataForUserBoard } = useQuery<ITypeForUserBoard>({
+    const { isLoading: isPending, error, data: dataForUserBoard } = useQuery<ITypeForResponseDataForGetAllUsers>({
         queryKey: ['apiForGetAllUsers', pageNum],
         queryFn: apiForGetAllUsers,
     });
@@ -59,7 +60,7 @@ const ContainerForUserBoard = ({
             onSuccess: (result: any) => {
                 // queryClient.refetchQueries({ queryKey: ['apiForGetAllUsers'] })
 
-                queryClient.setQueryData<ITypeForUserBoard | undefined>(
+                queryClient.setQueryData<ITypeForResponseDataForGetAllUsers | undefined>(
                     ['apiForGetAllUsers', pageNum],
                     (oldData) => {
                         if (!oldData) return undefined;

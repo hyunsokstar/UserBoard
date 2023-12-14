@@ -1,8 +1,9 @@
+import { Max, Min } from "class-validator";
 import { GendersEnum, RolesEnum } from "../enums/roles.enum";
 import { Column, Entity, PrimaryGeneratedColumn, Unique } from "typeorm";
 
 @Entity()
-@Unique(["email", "nickname"]) // 이 부분을 추가합니다.
+@Unique(["email", "nickname"])
 export class UsersModel {
     @PrimaryGeneratedColumn()
     id: number;
@@ -13,6 +14,7 @@ export class UsersModel {
     @Column({ nullable: false })
     password: string;
 
+    @Column({ default: "noname" })
     @Column()
     nickname: string;
 
@@ -32,4 +34,14 @@ export class UsersModel {
 
     @Column({ nullable: true })
     phoneNumber: string;
+
+    @Column({ type: "int", nullable: true, default: 1 })
+    @Min(1)
+    @Max(10)
+    backEndLevel: number | null;
+
+    @Column({ type: "int", nullable: true, default: 1 })
+    @Min(1)
+    @Max(10)
+    frontEndLevel: number | null;
 }

@@ -10,7 +10,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) { }
 
   @Get()
-  async getUsers(
+  async getAllUsers(
     @Query('pageNum') pageNum: number = 1,
   ): Promise<{ users: DtoForUserList[], totalCount: number, perPage: number }> {
     const { users, totalCount, perPage } = await this.usersService.getAllUsers(pageNum);
