@@ -16,3 +16,18 @@ interface ITypeForUserBoard {
     perPage: number;
 }
 
+export type IRowForUserInfo = {
+    id: number;
+    email: string;
+    password: string;
+    nickname: string;
+    role: string;
+    gender: string;
+    phoneNumber: string | null;
+};
+
+export type ITypeForResponseDataForGetAllUsers = {
+    users: IRowForUserInfo[];
+    totalCount: number;
+    perPage: number;
+};
