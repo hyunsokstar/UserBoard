@@ -45,9 +45,12 @@ const TextEditorForDevLevel = <TRow, TSummaryRow>({
             value={row[column.key as keyof TRow] as unknown as number}
             onChange={(valueString) => {
                 const value = parseFloat(valueString) || 0;
+                if (value > 10) {
+                    alert("10 이상의 레벨은 선택 불가능")
+                    return;
+                }
+
                 onRowChange({ ...row, [column.key]: value });
-                // 해당 행의 체크 박스를 체크하는 함수 호출
-                console.log("여기 맞아?");
             }}
 
             onBlur={(e) => {

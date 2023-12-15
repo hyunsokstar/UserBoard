@@ -48,6 +48,12 @@ const columns = [
   }
 ];
 
+interface SummaryRow {
+  id: string;
+  totalCount: number;
+  yesCount: number;
+}
+
 const UserlistByDataGrid = () => {
   const [rows, setRows] = useState<IUser[]>([]);
   const [pageNum, setPageNum] = useState(1);
@@ -146,7 +152,6 @@ const UserlistByDataGrid = () => {
     //   });
   }
 
-
   return (
     <Box width={'80%'} mx={'auto'} mt={5}>
       {/* <Button mb={3} colorScheme="red" disabled={selectedRows.size === 0} onClick={handleDeleteSelectedRows}>
@@ -193,6 +198,7 @@ const UserlistByDataGrid = () => {
         onRowsChange={setRows}
         direction={direction}
         renderers={{ renderSortStatus, renderCheckbox }}
+        // topSummaryRows={summaryRows}
         className="fill-grid"
         style={{ maxWidth: '100%' }}
       />

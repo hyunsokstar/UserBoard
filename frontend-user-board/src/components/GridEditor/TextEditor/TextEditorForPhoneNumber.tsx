@@ -30,18 +30,20 @@ const TextEditorForPhoneNumber = <TRow, TSummaryRow>({
         }
     };
 
+    const onBlurHandler = () => {
+        if (row[column.key as keyof TRow] !== previousValue) {
+            setPreviousValue(row[column.key as keyof TRow] as string);
+            onRowSelectionChange({ type: 'ROW', row: row, checked: true, isShiftClick: false });
+        }
+        onClose(true, false);
+    };
+
     return (
         <input
             autoFocus
             value={row[column.key as keyof TRow] as unknown as string}
             onChange={(event) => onRowChange({ ...row, [column.key]: event.target.value })}
-            onBlur={() => {
-                if (row[column.key as keyof TRow] !== previousValue) {
-                    setPreviousValue(row[column.key as keyof TRow] as string);
-                    onRowSelectionChange({ type: 'ROW', row: row, checked: true, isShiftClick: false });
-                }
-                onClose(true, false);
-            }}
+            onBlur={onBlurHandler} // 변경된 onBlur 함수
             onKeyDown={handleKeyPress} // 엔터 키 입력 감지
             className={gridStyles.inputStyle} // styles 객체에서 해당 클래스를 가져와서 적용
         />
