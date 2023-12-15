@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Box, Button, Center, Checkbox } from '@chakra-ui/react';
+import { Box, Button, Center, Checkbox, Spacer } from '@chakra-ui/react';
 import 'react-data-grid/lib/styles.css';
 import DataGrid, { Column, RenderCellProps, RenderCheckboxProps, RenderEditCellProps, RenderHeaderCellProps, RenderSortStatusProps, SelectCellFormatter, SortColumn, useRowSelection } from 'react-data-grid';
 import { apiForGetAllUsers } from '../api/apiForUserBoard';
@@ -10,6 +10,7 @@ import { Direction, ITypeForResponseDataForGetAllUsers, IUser, Row } from '@/typ
 import { SelectColumnForRdg } from '@/components/Formatter/CheckBox/SelectColumnForRdg';
 import TextEditorForDevLevel from '@/components/Editor/TextEditorForDevLevel';
 import { v4 as uuidv4 } from 'uuid';
+import { ArrowForwardIcon, DeleteIcon, EmailIcon } from '@chakra-ui/icons';
 
 
 const columns = [
@@ -87,7 +88,7 @@ const UserlistByDataGrid = () => {
     setSelectedRows(new Set());
   }
 
-  function rowKeyGetter(row: IUser) {
+  function rowKeyGetter(row: Row) {
     return row.id;
   }
 
@@ -131,17 +132,38 @@ const UserlistByDataGrid = () => {
 
   return (
     <Box width={'80%'} mx={'auto'} mt={5}>
-      <Button mb={3} colorScheme="red" disabled={selectedRows.size === 0} onClick={handleDeleteSelectedRows}>
-        delete
+      {/* <Button mb={3} colorScheme="red" disabled={selectedRows.size === 0} onClick={handleDeleteSelectedRows}>
+        선택된 항목 삭제
       </Button>
 
       <Button mb={3} ml={3} colorScheme="red" onClick={addNewRow}>
-        add
+        새로운 행 추가
       </Button>
 
       <Button mb={3} ml={3} colorScheme="green" disabled={selectedRows.size === 0} onClick={handleSaveSelectedRows}>
-        save
-      </Button>
+        선택된 항목 저장
+      </Button> */}
+
+      <Box display={"flex"} justifyContent={"space-between"} mt={3} mx={"auto"} gap={2}>
+        <Button
+          size='sm'
+          flex={0.2}
+          mb={3}
+          colorScheme={selectedRows.size === 0 ? "gray" : "red"}
+          disabled={selectedRows.size === 0}
+          leftIcon={<DeleteIcon />}
+          onClick={handleDeleteSelectedRows}
+        >
+          delete
+        </Button>
+        <Spacer />
+        <Button size='sm' variant='outline' leftIcon={<EmailIcon />} flex={0.2} onClick={addNewRow} >
+          New Row
+        </Button>
+        <Button size='sm' variant='outline' rightIcon={<ArrowForwardIcon />} flex={0.2} disabled={selectedRows.size === 0} onClick={handleSaveSelectedRows} >
+          Save
+        </Button>
+      </Box>
 
       <DataGrid
         columns={columns}
