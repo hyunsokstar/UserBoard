@@ -27,6 +27,17 @@ const TextEditorForDevLevel = <TRow, TSummaryRow>({
     //     onRowSelectionChange({ row:row checked: true, isShiftClick: false });
     // };
 
+    const handleKeyPress = (event: any) => {
+        if (event.key === 'Enter') {
+            console.log('엔터 눌렀습니다');
+            if (row[column.key as keyof TRow] !== previousValue) {
+                setPreviousValue(row[column.key as keyof TRow] as number);
+                onRowSelectionChange({ type: 'ROW', row: row, checked: true, isShiftClick: false });
+            }
+            onClose(true, false);
+        }
+    };
+
     console.log("fucking 여기 text editor for dev level");
 
     return (
@@ -43,14 +54,14 @@ const TextEditorForDevLevel = <TRow, TSummaryRow>({
                 console.log("이전값 : ", typeof row[column.key as keyof TRow], row[column.key as keyof TRow]);
                 console.log("e : ", typeof parseInt(e.target.value), parseInt(e.target.value));
 
-                const currentValue = parseFloat(e.target.value) || 0;
+                const currentValue = parseFloat(e.target.value) || 1;
 
                 if (previousValue !== currentValue) {
                     onRowSelectionChange({ type: "ROW", row: row, checked: true, isShiftClick: false });
                 }
                 onClose(true, false)
-            }
-            }
+            }}
+            onKeyDown={handleKeyPress}
             height={"100%"}
         >
             <NumberInputField height="auto" my={1} />

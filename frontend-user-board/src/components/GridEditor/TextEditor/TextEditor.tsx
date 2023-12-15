@@ -21,8 +21,18 @@ const TextEditor = <TRow, TSummaryRow>({
         <input
             value={row[column.key as keyof TRow] as unknown as string}
             onChange={(event) => onRowChange({ ...row, [column.key]: event.target.value })}
-            onBlur={() => onClose(true, false)}
-            className={gridStyles.inputStyle} // styles 객체에서 해당 클래스를 가져와서 적용
+            onBlur={(e) => {
+                console.log("이전값 : ", typeof row[column.key as keyof TRow], row[column.key as keyof TRow]);
+                console.log("e : ", typeof parseInt(e.target.value), parseInt(e.target.value));
+
+                const currentValue = parseFloat(e.target.value) || 0;
+
+                if (previousValue !== currentValue) {
+                    onRowSelectionChange({ type: "ROW", row: row, checked: true, isShiftClick: false });
+                }
+                onClose(true, false)
+            }
+            } className={gridStyles.inputStyle} // styles 객체에서 해당 클래스를 가져와서 적용
         />
     );
 };

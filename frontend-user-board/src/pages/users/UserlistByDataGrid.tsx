@@ -5,24 +5,36 @@ import DataGrid, { Column, RenderCellProps, RenderCheckboxProps, RenderEditCellP
 import { apiForGetAllUsers } from '../api/apiForUserBoard';
 import { useQuery } from '@tanstack/react-query';
 import styles from './styles.module.scss';
-import TextEditor from '../../components/Editor/TextEditor';
 import { Direction, ITypeForResponseDataForGetAllUsers, IUser, Row } from '@/types/typeForUserBoard';
 import { SelectColumnForRdg } from '@/components/Formatter/CheckBox/SelectColumnForRdg';
-import TextEditorForDevLevel from '@/components/Editor/TextEditorForDevLevel';
+import TextEditorForDevLevel from '@/components/GridEditor/TextEditor/TextEditorForDevLevel';
 import { v4 as uuidv4 } from 'uuid';
 import { ArrowForwardIcon, DeleteIcon, EmailIcon } from '@chakra-ui/icons';
+import SelectBoxForGender from '@/components/GridEditor/SelectBox/SelectBoxForGender';
+import SelectBoxForDevRole from '@/components/GridEditor/SelectBox/SelectBoxForDevRole';
+import TextEditorForPhoneNumber from '@/components/GridEditor/TextEditor/TextEditorForPhoneNumber';
 
 
 const columns = [
   SelectColumnForRdg,
+  // { key: 'id', name: 'id' },
   { key: 'email', name: 'Email', sortable: true, frozen: true },
   { key: 'nickname', name: 'Nickname' },
-  { key: 'role', name: 'Role' },
-  { key: 'gender', name: 'Gender' },
+  {
+    key: 'gender',
+    name: 'Gender',
+    renderEditCell: SelectBoxForGender
+  },
   {
     key: 'phoneNumber',
     name: 'Phone Number',
-    renderEditCell: TextEditor,
+    // formatter: FormatterForPhoneNumber,
+    renderEditCell: TextEditorForPhoneNumber,
+  },
+  {
+    key: 'role',
+    name: 'Role',
+    renderEditCell: SelectBoxForDevRole
   },
   {
     key: 'backEndLevel',
@@ -83,7 +95,7 @@ const UserlistByDataGrid = () => {
   if (error) return <Box>Error: {error.message}</Box>;
 
   function handleDeleteSelectedRows() {
-    const updatedRows = rows.filter((row) => !selectedRows.has(row.id));
+    const updatedRows = rows.filter((row: any) => !selectedRows.has(row.id));
     setRows(updatedRows);
     setSelectedRows(new Set());
   }
@@ -92,23 +104,28 @@ const UserlistByDataGrid = () => {
     return row.id;
   }
 
-  function generateUniqueId() {
-    return uuidv4(); // UUID v4 생성
+  function generateRandomId(): number {
+    const now = new Date();
+    const minute = now.getMinutes(); // 현재 분
+    const second = now.getSeconds(); // 현재 초
+
+    // 분과 초를 조합하여 랜덤 아이디 생성
+    return parseInt(`${minute}${second}${Math.floor(Math.random() * 10000)}`);
   }
 
-  function addNewRow() {
-    const newRow: IUser = {
-      id: generateUniqueId(), // generateUniqueId()는 UUID를 생성하는 함수여야 함
-      email: '', // 빈 문자열 또는 기본값으로 설정
-      nickname: '',
-      role: '',
-      gender: '',
-      phoneNumber: '',
-      frontEndLevel: 1, // 적절한 기본값으로 설정
-      backEndLevel: 1, // 적절한 기본값으로 설정
-    };
-    setRows([...rows, newRow]); // 기존 행 배열에 새로운 행 추가
-  }
+  // function addNewRow() {
+  //   const newRow: IUser = {
+  //     id: generateRandomId(),
+  //     email: '', // 빈 문자열 또는 기본값으로 설정
+  //     nickname: '',
+  //     role: '',
+  //     gender: '',
+  //     phoneNumber: '',
+  //     frontEndLevel: 1, // 적절한 기본값으로 설정
+  //     backEndLevel: 1, // 적절한 기본값으로 설정
+  //   };
+  //   setRows([...rows, newRow]); // 기존 행 배열에 새로운 행 추가
+  // }
 
   function handleSaveSelectedRows() {
     // 선택된 행들의 데이터를 가져와서 새로운 배열에 저장
@@ -157,9 +174,9 @@ const UserlistByDataGrid = () => {
           delete
         </Button>
         <Spacer />
-        <Button size='sm' variant='outline' leftIcon={<EmailIcon />} flex={0.2} onClick={addNewRow} >
+        {/* <Button size='sm' variant='outline' leftIcon={<EmailIcon />} flex={0.2} onClick={addNewRow} >
           New Row
-        </Button>
+        </Button> */}
         <Button size='sm' variant='outline' rightIcon={<ArrowForwardIcon />} flex={0.2} disabled={selectedRows.size === 0} onClick={handleSaveSelectedRows} >
           Save
         </Button>
