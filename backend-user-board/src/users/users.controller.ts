@@ -1,8 +1,9 @@
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Post, Query, Req, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Post, Put, Query, Req, Res } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { DtoForUserList } from './dtos/dtoForUserList.dto';
 import * as bcrypt from 'bcrypt';
+import { UpdateUserDTO } from './dtos/UpdateUserDTO';
 
 
 @Controller('users')
@@ -157,6 +158,29 @@ export class UsersController {
       return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
         success: false,
         message: error,
+      });
+    }
+  }
+
+  @Put('/')
+  async updateUsersModelController(
+    @Body() userList: UpdateUserDTO[],
+    @Res() response
+  ) {
+
+    console.log("userList for update : ", userList);
+
+
+    const updatedCount = await this.usersService.updateUsersModel(userList);
+    if (updatedCount > 0) {
+      return response.status(HttpStatus.OK).json({
+        success: true,
+        message: `${updatedCount} users updated.`,
+      });
+    } else {
+      return response.status(HttpStatus.NOT_FOUND).json({
+        success: false,
+        message: 'No users updated.',
       });
     }
   }

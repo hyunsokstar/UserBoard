@@ -6,6 +6,7 @@ import { DtoForUserList } from './dtos/dtoForUserList.dto';
 import * as bcrypt from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
 import * as jwt from 'jsonwebtoken';
+import { UpdateUserDTO } from './dtos/UpdateUserDTO';
 
 @Injectable()
 export class UsersService {
@@ -49,6 +50,9 @@ export class UsersService {
         const [users, totalCount] = await this.usersRepository.findAndCount({
             skip,
             take: perPage,
+            order: {
+                id: 'DESC', // id를 기준으로 내림차순 정렬
+            },
         });
 
         if (!users || !users.length) {
@@ -218,5 +222,38 @@ export class UsersService {
             throw new InternalServerErrorException('Failed to issue new access token');
         }
     }
+
+    // react-data-grid 의 save button 눌러서 넘어온 데이터로 UsersModel 업데이트
+    // UsersService
+
+    // UsersService
+
+    async updateUsersModel(userList: UpdateUserDTO[]): Promise<number> {
+        let updatedCount = 0;
+
+        try {
+            for (const userData of userList) {
+                const { id, ...updateData } = userData;
+
+                const userToUpdate = await this.usersRepository.findOne({ where: { id } });
+
+                if (userToUpdate) {
+                    const result = await this.usersRepository.update(id, updateData);
+                    if (result.affected) {
+                        updatedCount++;
+                    }
+                }
+            }
+        } catch (error) {
+            // Error handling logic
+            console.error('Error updating users:', error);
+            throw new InternalServerErrorException('Error updating users');
+        }
+
+        return updatedCount;
+    }
+
+
+
 
 }

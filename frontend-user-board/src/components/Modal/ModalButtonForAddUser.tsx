@@ -37,12 +37,9 @@ const ModalButtonForAddUser: React.FC<ModalButtonProps> = ({ buttonText }) => {
     const [isOpen, setIsOpen] = useState(false);
     const toast = useToast();
     const queryClient = useQueryClient();
-
-    // const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
     const { register, handleSubmit, formState: { errors }, getValues } = useForm<FormData>();
     const [passwordMismatch, setPasswordMismatch] = useState(false); // 비밀번호 불일치 상태 추가
     const [showPassword, setShowPassword] = useState(false); // 비밀번호 보이기 토글 상태
-
 
     const mutation = useMutation({
         mutationFn: apiForAddUser,

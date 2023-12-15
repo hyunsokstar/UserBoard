@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import { backendApi } from "./commonApi";
 import { QueryFunctionContext } from "@tanstack/react-query";
 import { IParamterTypeForLogin } from "@/types/typeForAuthentication";
+import { IUser } from "@/types/typeForUserBoard";
 
 const instance = axios.create({
     baseURL: `${backendApi}/users`,
@@ -9,10 +10,20 @@ const instance = axios.create({
 });
 
 // 1122
+export const apiForSaveOrUpdateUserInfoForChecked = async (data: IUser[]) => {
+    try {
+        const response = await instance.put('/', data); // 여기서 data를 PUT 요청으로 보냄
+        return response.data; // 응답 데이터를 반환하거나 필요에 따라 다른 처리를 수행할 수 있음
+    } catch (error) {
+        // 에러 처리
+        console.error('Error updating users:', error);
+        throw error; // 에러를 호출한 쪽으로 다시 던짐
+    }
+}
+
+
 export const apiForLoginCheckWithRefreshToken = async (refreshToken: string) => {
-
     console.log("login check by refresh token at front");
-
 
     const headers = {
         Authorization: `Bearer ${refreshToken}`
