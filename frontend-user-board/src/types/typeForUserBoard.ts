@@ -1,5 +1,5 @@
 // User 인터페이스 정의
-interface User {
+export interface IUser {
     id: number;
     email: string;
     nickname: string;
@@ -12,13 +12,13 @@ interface User {
 
 // 응답 데이터의 타입 정의
 interface ITypeForUserBoard {
-    users: User[];
+    users: IUser[];
     totalCount: number;
     perPage: number;
 }
 
 export type ITypeForResponseDataForGetAllUsers = {
-    users: User[];
+    users: IUser[];
     totalCount: number;
     perPage: number;
 };

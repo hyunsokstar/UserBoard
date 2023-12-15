@@ -6,7 +6,7 @@ import { apiForGetAllUsers } from '../api/apiForUserBoard';
 import { useQuery } from '@tanstack/react-query';
 import styles from './styles.module.scss';
 import TextEditor from '../../components/Editor/TextEditor';
-import { Direction, ITypeForResponseDataForGetAllUsers, Row } from '@/types/typeForUserBoard';
+import { Direction, ITypeForResponseDataForGetAllUsers, IUser, Row } from '@/types/typeForUserBoard';
 import { SelectColumnForRdg } from '@/components/Formatter/CheckBox/SelectColumnForRdg';
 import TextEditorForDevLevel from '@/components/Editor/TextEditorForDevLevel';
 import { v4 as uuidv4 } from 'uuid';
@@ -36,13 +36,13 @@ const columns = [
 ];
 
 const UserlistByDataGrid = () => {
-  const [rows, setRows] = useState<Row[]>([]);
+  const [rows, setRows] = useState<IUser[]>([]);
   const [pageNum, setPageNum] = useState(1);
   const [selectedRows, setSelectedRows] = useState((): ReadonlySet<number> => new Set());
   const [direction, setDirection] = useState<Direction>('ltr');
   const [sortColumns, setSortColumns] = useState<readonly SortColumn[]>([]);
 
-  const sortedRows = useMemo((): readonly Row[] => {
+  const sortedRows = useMemo((): IUser[] => {
     if (sortColumns.length === 0) return rows;
 
     return [...rows].sort((a, b) => {
@@ -87,7 +87,7 @@ const UserlistByDataGrid = () => {
     setSelectedRows(new Set());
   }
 
-  function rowKeyGetter(row: Row) {
+  function rowKeyGetter(row: IUser) {
     return row.id;
   }
 
@@ -96,7 +96,7 @@ const UserlistByDataGrid = () => {
   }
 
   function addNewRow() {
-    const newRow: User = {
+    const newRow: IUser = {
       id: generateUniqueId(), // generateUniqueId()는 UUID를 생성하는 함수여야 함
       email: '', // 빈 문자열 또는 기본값으로 설정
       nickname: '',
@@ -115,7 +115,6 @@ const UserlistByDataGrid = () => {
 
     console.log("selectedRowsData : ", selectedRowsData);
 
-
     // 서버로 보내는 로직
     // 예를 들어, axios를 사용한 POST 요청으로 보낸다고 가정하면:
     // axios.post('/save-selected-rows', { selectedRowsData })
@@ -133,15 +132,15 @@ const UserlistByDataGrid = () => {
   return (
     <Box width={'80%'} mx={'auto'} mt={5}>
       <Button mb={3} colorScheme="red" disabled={selectedRows.size === 0} onClick={handleDeleteSelectedRows}>
-        선택된 항목 삭제
+        delete
       </Button>
 
       <Button mb={3} ml={3} colorScheme="red" onClick={addNewRow}>
-        새로운 행 추가
+        add
       </Button>
 
       <Button mb={3} ml={3} colorScheme="green" disabled={selectedRows.size === 0} onClick={handleSaveSelectedRows}>
-        선택된 항목 저장
+        save
       </Button>
 
       <DataGrid
