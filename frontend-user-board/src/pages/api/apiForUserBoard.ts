@@ -107,7 +107,9 @@ export const apiForGetAllUsers = ({
         });
 };
 
-export const apiForDeleteUsersForCheckedIds = (checkedIds: number[]): Promise<any> => {
+export const apiForDeleteUsersForCheckedIds = (checkedIds: any[]): Promise<any> => {
+    console.log('Checked IDs (row delete api ):', checkedIds); // checkedIds 로그 출력
+
     // 요청을 보내는 부분
     return instance.delete(``, { data: { checkedIds } })
         .then((response) => {
@@ -119,4 +121,5 @@ export const apiForDeleteUsersForCheckedIds = (checkedIds: number[]): Promise<an
             throw error; // 에러를 그대로 던지기
         });
 };
+
 

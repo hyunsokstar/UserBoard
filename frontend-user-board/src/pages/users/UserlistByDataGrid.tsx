@@ -12,6 +12,7 @@ import SelectBoxForGender from '@/components/GridEditor/SelectBox/SelectBoxForGe
 import SelectBoxForDevRole from '@/components/GridEditor/SelectBox/SelectBoxForDevRole';
 import TextEditorForPhoneNumber from '@/components/GridEditor/TextEditor/TextEditorForPhoneNumber';
 import { UseMutationOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import useDeleteUsersMutation from '@/hooks/useDeleteUsersMutation';
 
 
 const columns = [
@@ -53,15 +54,20 @@ interface SummaryRow {
   yesCount: number;
 }
 
+// 1122
 const UserlistByDataGrid = () => {
-  const [rows, setRows] = useState<IUser[]>([]);
   const toast = useToast();
+  const [rows, setRows] = useState<IUser[]>([]);
+  const deleteUsersMutation = useDeleteUsersMutation();
 
   const [pageNum, setPageNum] = useState(1);
   const [selectedRows, setSelectedRows] = useState((): ReadonlySet<number> => new Set());
   const [direction, setDirection] = useState<Direction>('ltr');
   const [sortColumns, setSortColumns] = useState<readonly SortColumn[]>([]);
   const queryClient = useQueryClient();
+
+  console.log("rows : ", rows);
+
 
   const sortedRows = useMemo((): IUser[] => {
     if (sortColumns.length === 0) return rows;
@@ -96,7 +102,7 @@ const UserlistByDataGrid = () => {
         title: "Update User Success",
         description: result.message,
         status: "success",
-        duration: 2000, // 토스트 메시지가 보여지는 시간 (2초)
+        duration: 2000,
         isClosable: true,
       });
     },
@@ -108,13 +114,12 @@ const UserlistByDataGrid = () => {
   function handleSaveSelectedRows() {
     const selectedRowsData = rows.filter(row => selectedRows.has(row.id));
     SaveOrUpdateUserInfoForChecked.mutate(selectedRowsData)
-    console.log("selectedRowsData : ", selectedRowsData);
   }
 
   function handleDeleteSelectedRows() {
-    const updatedRows = rows.filter((row: any) => !selectedRows.has(row.id));
-    setRows(updatedRows);
-    setSelectedRows(new Set());
+    const checkedIds = Array.from(selectedRows).map((selectedId: number) => selectedId)
+
+    deleteUsersMutation.mutate(checkedIds);
   }
 
   function rowKeyGetter(row: Row) {
@@ -182,7 +187,6 @@ const UserlistByDataGrid = () => {
         onRowsChange={setRows}
         direction={direction}
         renderers={{ renderSortStatus, renderCheckbox }}
-        // topSummaryRows={summaryRows}
         className="fill-grid"
         style={{ maxWidth: '100%' }}
       />
@@ -194,7 +198,6 @@ function renderCheckbox({ onChange, ...props }: RenderCheckboxProps) {
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     onChange(e.target.checked, (e.nativeEvent as MouseEvent).shiftKey);
   }
-
   return <input type="checkbox" {...props} onChange={handleChange} />;
 }
 
